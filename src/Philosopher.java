@@ -1,38 +1,11 @@
 public class Philosopher implements Runnable {
-    /**
-     * Число философов
-     */
     private final int maxPhilosofields;
-    /**
-     * Количество приемов пищи
-     */
     private int eatCounter;
-    /**
-     * Имя философа
-     */
     private final String name;
-    /**
-     * Раунд
-     */
     private Round round;
-    /**
-     * Номер философа
-     */
     private int id;
-    /**и го
-     * Время нужное философу для приема пищи
-     */
     private int eatTime;
 
-    /**
-     * Конструктор
-     *
-     * @param name             имя философа
-     * @param id               номер философа
-     * @param maxPhilosofields всего философов
-     * @param round            раунд
-     * @param eatTime          время для еды
-     */
     public Philosopher(String name, int id, final int maxPhilosofields, final Round round, int eatTime) {
         this.name = name;
         this.round = round;
@@ -64,11 +37,6 @@ public class Philosopher implements Runnable {
         }
     }
 
-    /**
-     * Прием пищи
-     *
-     * @throws InterruptedException
-     */
     private void eat() throws InterruptedException {
         this.eatCounter += 1;
         System.out.println(name + " поел " + eatCounter + " раз(а)");
