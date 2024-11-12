@@ -5,6 +5,7 @@ public class Philosopher implements Runnable {
     private Round round;
     private int id;
     private int eatTime;
+    private boolean canEat;
 
     public Philosopher(String name, int id, final int maxPhilosofields, final Round round, int eatTime) {
         this.name = name;
@@ -13,6 +14,7 @@ public class Philosopher implements Runnable {
         this.id = id;
         this.eatTime = eatTime;
         eatCounter = 0;
+        canEat = true;
     }
 
     @Override
@@ -21,16 +23,21 @@ public class Philosopher implements Runnable {
         while (true) {
             try {
                 int nRound = round.getRound();
-                for (int i = 0; i < variations; ++i) {
-                    int nIndex = nRound + i * 2;
-                    if (nIndex >= maxPhilosofields) {
-                        nIndex -= maxPhilosofields;
+                int nIndex;
+                    for (int i = 0; i < variations; ++i) {
+                        nIndex = nRound + i * 2;
+                        if (nIndex >= maxPhilosofields) {
+                            nIndex -= maxPhilosofields;
+                        }
+                        if (id == nIndex) {
+                            if (allowToEat()) {
+                                eat();
+                            } else {
+                                System.out.println(name + " наелся");
+                            }
+                        }
                     }
-                    if (id == nIndex) {
-                        eat();
-                    }
-                }
-                round.next();
+                    round.next();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -40,8 +47,15 @@ public class Philosopher implements Runnable {
     private void eat() throws InterruptedException {
         this.eatCounter += 1;
         System.out.println(name + " поел " + eatCounter + " раз(а)");
+        if (eatCounter == 3) {
+            canEat = false;
+        }
         if (eatTime > 0) {
             Thread.sleep(eatTime);
         }
+    }
+
+    public boolean allowToEat() {
+        return this.canEat;
     }
 }
